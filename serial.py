@@ -7,9 +7,10 @@ ser = serial.Serial("/dev/ttyAMA0",9600)
 # test.open()
 # opening causes an error for an unknown reason
 
-ser.write(chr(int(sys.argv[1])))
-ser.write(chr(int(sys.argv[2])))
-ser.write(chr(int(sys.argv[3])))
-ser.write(chr(int(sys.argv[4])))
+#direction: 1 - forward; 0 - backward
+ser.write(chr(int(sys.argv[1]))) #left drive direction
+ser.write(chr(int(sys.argv[2]))) #left drive speed
+ser.write(chr(int(sys.argv[3]))) #right drive direction
+ser.write(chr(int(sys.argv[4]))) #right drive speed
 
 ser.close()
