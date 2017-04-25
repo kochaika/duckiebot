@@ -14,6 +14,8 @@
 #define PWM_SLOW 0
 #define PWM_FAST 255
 
+#define KEY 0b11011011
+
 #define DELAY 3000
 
 void setLeftDriveSpeed(byte dir, byte speed) {
@@ -55,20 +57,31 @@ void initDrives() {
 void setup() {
    initDrives();
    Serial.begin(9600);
-   setLeftDriveSpeed(1,255);
 }
 
 void loop() {
+byte key;
 byte dir1;
 byte speed1;
 byte dir2;
 byte speed2;
-  if (Serial.available() >= 4) {
-    dir1 = Serial.read();
-    speed1 = Serial.read();
-    dir2 = Serial.read();
-    speed2 = Serial.read();
-    setLeftDriveSpeed(dir1,speed1);
-    setRightDriveSpeed(dir2,speed2);
+byte checkByte;
+byte checkSum;
+  if (Serial.available() > 5) {
+    key = Serial.read();
+
+    if(key == KEY){
+      dir1 = Serial.read();
+      speed1 = Serial.read();
+      dir2 = Serial.read();
+      speed2 = Serial.read();
+      checkByte = Serial.read();
+      checkSum = (dir1+speed1+dir2+speed2)%256;
+
+      if(checkSum == checkByte){
+        setLeftDriveSpeed(dir1,speed1);
+        setRightDriveSpeed(dir2,speed2);
+      }
+    }
   }
 }
