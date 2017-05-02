@@ -86,7 +86,7 @@ class DaguWheelsDriver:
 if __name__ == '__main__':
     from time import sleep
 
-    N = 10
+    N = 255
     delay = 100. / 1000.
 
     dagu = DaguWheelsDriver()
@@ -98,11 +98,11 @@ if __name__ == '__main__':
 
     # accelerate forward
     for i in range(N):
-        dagu.setWheelsSpeed((1.0 + i) / N, (1.0 + i) / N)
+        dagu.setWheelsSpeed(i, i)
         sleep(delay)
     # decelerate forward
-    for i in range(N):
-        dagu.setWheelsSpeed((-1.0 - i + N) / N, (-1.0 - i + N) / N)
+    for i in range(N, -1, -1):
+        dagu.setWheelsSpeed(i, i)
         sleep(delay)
 
     del dagu
