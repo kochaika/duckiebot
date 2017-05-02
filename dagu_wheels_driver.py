@@ -86,7 +86,7 @@ class DaguWheelsDriver:
 if __name__ == '__main__':
     from time import sleep
 
-    N = 255
+    N = 255 #speed in range 0..255
     delay = 100. / 1000.
 
     dagu = DaguWheelsDriver()
