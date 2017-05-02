@@ -89,39 +89,21 @@ if __name__ == '__main__':
     N = 10
     delay = 100. / 1000.
 
-    dagu = DAGU_Differential_Drive()
-
+    dagu = DaguWheelsDriver()
     # turn left
-    dagu.setSteerAngle(1.0)
+    #dagu.setWheelsSpeed()
+
+    #dagu.left_sgn = -1.0
+    #dagu.right_sgn = -1.0
+
     # accelerate forward
     for i in range(N):
-        dagu.setSpeed((1.0 + i) / N)
+        dagu.setWheelsSpeed((1.0 + i) / N, (1.0 + i) / N)
         sleep(delay)
     # decelerate forward
     for i in range(N):
-        dagu.setSpeed((-1.0 - i + N) / N)
-        sleep(delay)
-
-    # turn right
-    dagu.setSteerAngle(-1.0)
-    # accelerate backward
-    for i in range(N):
-        dagu.setSpeed(-(1.0 + i) / N)
-        sleep(delay)
-    # decelerate backward
-    for i in range(N):
-        dagu.setSpeed(-(-1.0 - i + N) / N)
-        sleep(delay)
-
-    # turn left
-    dagu.setSteerAngle(1.0)
-    # accelerate forward
-    for i in range(N):
-        dagu.setSpeed((1.0 + i) / N)
-        sleep(delay)
-    # decelerate forward
-    for i in range(N):
-        dagu.setSpeed((-1.0 - i + N) / N)
+        dagu.setWheelsSpeed((-1.0 - i + N) / N, (-1.0 - i + N) / N)
         sleep(delay)
 
     del dagu
+
