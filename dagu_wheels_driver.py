@@ -15,12 +15,12 @@ class DaguWheelsDriver:
 
     def __init__(self, verbose=False, debug=False, left_flip=False, right_flip=False):
         self.verbose = verbose or debug
-        self.debug = debug
+        self.debug = True
 
         # direction: 1 - forward; 0 - backward
-        # DEV = "/dev/ttyAMA0"
+        DEV = "/dev/ttyAMA0"
 
-        DEV = "/dev/ttyACM0"
+        #DEV = "/dev/ttyACM0"
 
         self.ser = serial.Serial(DEV, 9600)
         self.KEY = chr(219)  # 0b11011011
@@ -63,15 +63,30 @@ class DaguWheelsDriver:
         else:
             pwml = self.PWMvalue(vl, self.LEFT_MOTOR_MIN_PWM, self.LEFT_MOTOR_MAX_PWM)
 
+        if(vl>0):
+            self.left_sgn = 1.0
+            self.right_sgn = 1.0
+        else:
+            self.right_sgn = 0.0
+            self.left_sgn = 0.0
+
         if fabs(vr) < self.SPEED_TOLERANCE:
             pwmr = 0
         else:
             pwmr = self.PWMvalue(vr, self.RIGHT_MOTOR_MIN_PWM, self.RIGHT_MOTOR_MAX_PWM)
 
-        if self.debug:
-            print "v = %5.3f, u = %5.3f, vl = %5.3f, vr = %5.3f, pwml = %3d, pwmr = %3d" % (v, u, vl, vr, pwml, pwmr)
+        if (vr > 0):
+            self.left_sgn = 1.0
+            self.right_sgn = 1.0
+        else:
+            self.right_sgn = 0.0
+            self.left_sgn = 0.0
 
-        self.sendPayload((0 if self.left_sgn < 0 else 1), pwml, (0 if self.right_sgn < 0 else 1), pwmr)
+        if self.debug:
+            #print "v = %5.3f, u = %5.3f, vl = %5.3f, vr = %5.3f, pwml = %3d, pwmr = %3d" % (v, u, vl, vr, pwml, pwmr)
+            print "vl = %5.3f, vr = %5.3f, pwml = %3d, pwmr = %3d" % (vl, vr, pwml, pwmr)
+
+        self.sendPayload(self.left_sgn, pwml, self.right_sgn, pwmr)
 
     def setWheelsSpeed(self, left, right):
         self.leftSpeed = left
@@ -86,7 +101,7 @@ class DaguWheelsDriver:
 if __name__ == '__main__':
     from time import sleep
 
-    N = 255 #speed in range 0..255
+    N = 255
     delay = 100. / 1000.
 
     dagu = DaguWheelsDriver()
