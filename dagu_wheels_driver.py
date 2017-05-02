@@ -15,7 +15,7 @@ class DaguWheelsDriver:
 
     def __init__(self, verbose=False, debug=False, left_flip=False, right_flip=False):
         self.verbose = verbose or debug
-        self.debug = debug
+        self.debug = True
 
         # direction: 1 - forward; 0 - backward
         DEV = "/dev/ttyAMA0"
@@ -74,7 +74,7 @@ class DaguWheelsDriver:
             #print "v = %5.3f, u = %5.3f, vl = %5.3f, vr = %5.3f, pwml = %3d, pwmr = %3d" % (v, u, vl, vr, pwml, pwmr)
             print "vl = %5.3f, vr = %5.3f, pwml = %3d, pwmr = %3d" % (vl, vr, pwml, pwmr)
 
-        self.sendPayload(0 if self.vl < 0 else 1, pwml, 0 if self.vr < 0 else 1, pwmr)
+        self.sendPayload(0 if vl < 0 else 1, pwml, 0 if vr < 0 else 1, pwmr)
 
     def setWheelsSpeed(self, left, right):
         self.leftSpeed = left
