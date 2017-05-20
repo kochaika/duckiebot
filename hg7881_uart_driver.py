@@ -1,15 +1,21 @@
 #!/usr/bin/python
 
-from math import fabs, floor
+# Wrapping UART communication with connected to Arduino HG7881 driver
+#
+# date:    02 may 2017
+#
+# authors: Constantin Chayka <pro100kot14@gmail.com>
+#          Olesya Tishencko <lesya.tishencko2012@yandex.ru>
+#          Anatoly Bendrikovsky <bendrikovski@gmail.com>
 
+from math import fabs, floor
 import serial
 
-class DaguWheelsDriver:
+class HG7881ArduinoDriver:
     LEFT_MOTOR_MIN_PWM = 60  # Minimum speed for left motor
     LEFT_MOTOR_MAX_PWM = 255  # Maximum speed for left motor
     RIGHT_MOTOR_MIN_PWM = 60  # Minimum speed for right motor
     RIGHT_MOTOR_MAX_PWM = 255  # Maximum speed for right motor
-    # AXEL_TO_RADIUS_RATIO = 1.0     # The axel length and turning radius ratio
     SPEED_TOLERANCE = 1.e-2  # speed tolerance level
 
 
@@ -19,7 +25,6 @@ class DaguWheelsDriver:
 
         # direction: 1 - forward; 0 - backward
         DEV = "/dev/ttyAMA0"
-
         #DEV = "/dev/ttyACM0"
 
         self.ser = serial.Serial(DEV, 9600)
@@ -68,10 +73,7 @@ class DaguWheelsDriver:
         else:
             pwmr = self.PWMvalue(vr, self.RIGHT_MOTOR_MIN_PWM, self.RIGHT_MOTOR_MAX_PWM)
 
-
-
         if self.debug:
-            #print "v = %5.3f, u = %5.3f, vl = %5.3f, vr = %5.3f, pwml = %3d, pwmr = %3d" % (v, u, vl, vr, pwml, pwmr)
             print "vl = %5.3f, vr = %5.3f, pwml = %3d, pwmr = %3d" % (vl, vr, pwml, pwmr)
 
         self.sendPayload(0 if vl < 0 else 1, pwml, 0 if vr < 0 else 1, pwmr)
@@ -82,7 +84,7 @@ class DaguWheelsDriver:
         self.updatePWM()
 
     def __del__(self):
-        self.sendPayload(1, 0, 1, 0)
+        self.setWheelsSpeed(0,0)
 
 
 # Simple example to test motors
@@ -92,12 +94,7 @@ if __name__ == '__main__':
     N = 255
     delay = 100. / 1000.
 
-    dagu = DaguWheelsDriver()
-    # turn left
-    #dagu.setWheelsSpeed()
-
-    #dagu.left_sgn = -1.0
-    #dagu.right_sgn = -1.0
+    dagu = HG7881ArduinoDriver()
 
     # accelerate forward
     for i in range(N):
@@ -109,4 +106,3 @@ if __name__ == '__main__':
         sleep(delay)
 
     del dagu
-
