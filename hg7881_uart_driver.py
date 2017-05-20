@@ -21,7 +21,7 @@ class HG7881ArduinoDriver:
 
     def __init__(self, verbose=False, debug=False, left_flip=False, right_flip=False):
         self.verbose = verbose or debug
-        self.debug = True
+        self.debug = debug
 
         # direction: 1 - forward; 0 - backward
         DEV = "/dev/ttyAMA0"
