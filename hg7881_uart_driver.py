@@ -98,11 +98,10 @@ if __name__ == '__main__':
 
     # accelerate forward
     for i in range(N):
-        dagu.setWheelsSpeed(i, i)
+        dagu.setSpeed((1.0 + i) / N)
         sleep(delay)
     # decelerate forward
-    for i in range(N, -1, -1):
-        dagu.setWheelsSpeed(i, i)
+    for i in range(N):
+        dagu.setSpeed((-1.0 - i + N) / N)
         sleep(delay)
-
     del dagu
