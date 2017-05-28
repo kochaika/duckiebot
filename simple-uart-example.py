@@ -1,5 +1,6 @@
 # requires python-serial
 # apt-get install python-serial
+
 import serial
 import sys
 
@@ -24,9 +25,5 @@ ser = serial.Serial(DEV,9600)
 # opening causes an error for an unknown reason
 
 sendPayload(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4])
-#ser.write(chr(int(sys.argv[1]))) #left drive direction
-#ser.write(chr(int(sys.argv[2]))) #left drive speed
-#ser.write(chr(int(sys.argv[3]))) #right drive direction
-#ser.write(chr(int(sys.argv[4]))) #right drive speed
 
 #ser.close()
