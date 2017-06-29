@@ -1,2 +1,2 @@
 # duckiebot
-Some duckiebot software
+Duckiebot and duckietown software
