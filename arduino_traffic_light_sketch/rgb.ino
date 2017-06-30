@@ -4,8 +4,8 @@
 #define RED_SHIFT_PERIOD 90
 #define GREEN_SHIFT_PERIOD 65
 
-RgbLed led1(10,9,8,false);
-RgbLed led2(7,6,5,false);
+RgbLed led1(7,6,5,false);
+RgbLed led2(4,3,2,false);
 RgbLed *greenLed = &led1;
 RgbLed *redLed = &led2;
 
